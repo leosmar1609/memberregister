@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBJV - Registro de Membros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>IBJV - Registro de Membros</h1>
+
+    <form id="registroForm">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" required>
+
+        <label for="telefone">Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required>
+
+        <label for="endereco">Endereço:</label>
+        <input type="text" id="endereco" name="endereco" required>
+
+        <label for="dataBatismo">Data de Batismo:</label>
+        <input type="date" id="dataBatismo" name="dataBatismo" required>
+
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <input type="date" id="dataNascimento" name="dataNascimento" required>
+
+        <label for="dataMembrificacao">Data de Membrificação:</label>
+        <input type="date" id="dataMembrificacao" name="dataMembrificacao" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    <h2>Membros Registrados</h2>
+    <table id="tabelaMembros">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Endereço</th>
+                <th>Data de Batismo</th>
+                <th>Data de Nascimento</th>
+                <th>Data de Membrificação</th>
+                <th>Email</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+         
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('registroForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+      
+            var nome = document.getElementById('nome').value;
+            var cpf = document.getElementById('cpf').value;
+            var telefone = document.getElementById('telefone').value;
+            var endereco = document.getElementById('endereco').value;
+            var dataBatismo = document.getElementById('dataBatismo').value;
+            var dataNascimento = document.getElementById('dataNascimento').value;
+            var dataMembrificacao = document.getElementById('dataMembrificacao').value;
+            var email = document.getElementById('email').value;
+
+
+            addRowToTable(nome, cpf, telefone, endereco, dataBatismo, dataNascimento, dataMembrificacao, email);
+
+            document.getElementById('registroForm').reset();
+        });
+
+        function addRowToTable(nome, cpf, telefone, endereco, dataBatismo, dataNascimento, dataMembrificacao, email) {
+            var table = document.getElementById('tabelaMembros').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+
+            var cells = [];
+            for (var i = 0; i < 8; i++) {
+                cells[i] = newRow.insertCell(i);
+            }
+
+          
+            cells[0].innerHTML = nome;
+            cells[1].innerHTML = cpf;
+            cells[2].innerHTML = telefone;
+            cells[3].innerHTML = endereco;
+            cells[4].innerHTML = dataBatismo;
+            cells[5].innerHTML = dataNascimento;
+            cells[6].innerHTML = dataMembrificacao;
+            cells[7].innerHTML = email;
+
+        
+            var deleteButton = document.createElement('button');
+            deleteButton.innerHTML = 'Excluir';
+            deleteButton.addEventListener('click', function() {
+           
+                newRow.remove();
+            });
+            cells[8].appendChild(deleteButton);
+
+            sortTable();
+        }
+
+        function sortTable() {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("tabelaMembros");
+            switching = true;
+            
+            while (switching) {
+                switching = false;
+                rows = table.getElementsByTagName("tr");
+                
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    
+                    x = rows[i].getElementsByTagName("td")[0];
+                    y = rows[i + 1].getElementsByTagName("td")[0];
+                    
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
